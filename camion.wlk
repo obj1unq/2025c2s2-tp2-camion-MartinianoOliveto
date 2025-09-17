@@ -32,6 +32,19 @@ object camion {
 	method pesoCarga(){
 		return cosas.sum({cosa => cosa.peso()})
 	}
+	method estaExcedidoDePeso(){
+		return self.pesoTotal() > 2500
+	}
+	method cosasConNivelDePeligrosidad(_nivelDePeligrosidad){
+		return cosas.filter({cosa => cosa.nivelDePeligrosidad() == _nivelDePeligrosidad})
+	}
+	method cosasQueSuperanNivelDePeligrosidad(_nivelDePeligrosidad){
+		return cosas.filter({cosa => cosa.nivelDePeligrosidad() > _nivelDePeligrosidad})
+	}
+	method cosasMasPeligrosasQue(unaCosa){
+		return cosas.filter({cosa => cosa.nivelDePeligrosidad() > unaCosa.nivelDePeligrosidad()})
+	}
+
 }
 /* REQUERIMIENTOS DEL CAMION 
 
@@ -46,13 +59,14 @@ PODER IDENTIFICAR SI EL CAMION TIENE ALGO CARGADO CON EL PESO DADO /////////////
 
 PESO: saber el peso total del camion : tara (1000kgs) + pesoCarga ///// HECHO 
 
-EXCESO DE PESO: se excede si el peso total es superior al aceptable (2500kgs)
+EXCESO DE PESO: se excede si el peso total es superior al aceptable (2500kgs)///// HECHO 
 
-NIVEL: encontrar una cosa cargada cuyo nivel de peligrosidad sea el dado
+NIVEL: encontrar una cosa cargada cuyo nivel de peligrosidad sea el dado /////HECHO 
 
 COSAS PELIGROSAS: encontrar cosas cargadas que tengan cierto nivel de peligrosidad
 				encontrar cosas cargadas que sean mas peligrosas que la cosa 
 				indicada //////REUTILIZAR CODIGO///////
+				/////////////////HECHO////////////////////
 
 CIRCULAR EN RUTA: saber si puede circular(no esta excedido de peso y ninguno de 
 					los objetos cargados supera el nivel maximo de peligrosidad

@@ -35,3 +35,31 @@ test "Probando calcular el peso total del camion"{
     camion.cargar(paqueteLadrillos)
     assert.equals(2340, camion.pesoTotal())
 }
+test"Probando exceso de peso"{
+    camion.cargar(knightRider)
+    camion.cargar(bumblebee)
+    assert.notThat(camion.estaExcedidoDePeso())
+    paqueteLadrillos.configurarCantidad(100)
+    camion.cargar(paqueteLadrillos)
+    assert.notThat(camion.estaExcedidoDePeso())
+}
+test"Probando busqueda por nivel de peligrosidad"{
+    camion.cargar(knightRider)
+    camion.cargar(bumblebee)
+    assert.equals(#{bumblebee}, camion.cosasConNivelDePeligrosidad(15))
+    bumblebee.transformarse()
+    assert.equals(#{bumblebee}, camion.cosasConNivelDePeligrosidad(30))
+}
+test"Probando busqueda por cierto nivel de peligrosidad"{
+    camion.cargar(bateriaAntiaerea)
+    camion.cargar(residuosRadiactivos)
+    assert.equals(#{bateriaAntiaerea, residuosRadiactivos}, camion.cosasQueSuperanNivelDePeligrosidad(99))
+}
+test "Probando busqueda de peligrosidad con cosas"{
+    bateriaAntiaerea.descargarMisiles()
+    camion.cargar(bateriaAntiaerea)
+    camion.cargar(residuosRadiactivos)
+    camion.cargar(bumblebee)
+    assert.equals(0, bateriaAntiaerea.nivelDePeligrosidad())
+    assert.equals(#{residuosRadiactivos, bumblebee}, camion.cosasMasPeligrosasQue(bateriaAntiaerea))
+}
