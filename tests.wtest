@@ -1,0 +1,37 @@
+import cosas.*
+import camion.*
+test"Probando carga y descarga"{
+    camion.cargar(arenaGranel)
+    assert.equals(#{arenaGranel}, camion.cosas())
+    //CARGA FUNCIONA 
+    camion.descargar(arenaGranel)
+    assert.equals(#{}, camion.cosas())
+}
+test "Probando flujo excepcional"{
+    camion.cargar(arenaGranel)
+    assert.throwsException({camion.cargar(arenaGranel)})
+    camion.descargar(arenaGranel)
+    assert.throwsException({camion.descargar(arenaGranel)})
+}
+test "Probando peso par"{
+    camion.cargar(knightRider)
+    camion.cargar(bumblebee)
+    assert.that(camion.todosSonPesosPares())
+    residuosRadiactivos.configurarPeso(1)
+    camion.cargar(residuosRadiactivos)
+    assert.notThat(camion.todosSonPesosPares())
+}
+test "Probando buscar algo de x peso"{
+    camion.cargar(knightRider)
+    camion.cargar(bumblebee)
+    assert.that(camion.hayAlgoConElPeso(800))
+    assert.notThat(camion.hayAlgoConElPeso(23))
+}
+test "Probando calcular el peso total del camion"{
+    camion.cargar(knightRider)
+    camion.cargar(bumblebee)
+    assert.equals(2300, camion.pesoTotal())
+    paqueteLadrillos.configurarCantidad(20)
+    camion.cargar(paqueteLadrillos)
+    assert.equals(2340, camion.pesoTotal())
+}

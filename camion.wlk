@@ -1,9 +1,71 @@
 import cosas.*
+const cosas = #{knightRider, arenaGranel, bumblebee, paqueteLadrillos, bateriaAntiaerea, residuosRadiactivos}
 
 object camion {
+	const tara = 1000 
 	const property cosas = #{}
 		
 	method cargar(unaCosa) {
-		cosas.add(unaCosa)
+		if(cosas.contains(unaCosa)){
+			self.error(unaCosa + "ya esta cargado")
+		}else{
+			cosas.add(unaCosa)
+		}
+	}
+		
+	method descargar(unaCosa){
+		if(not cosas.contains(unaCosa)){
+			self.error(unaCosa + "ya esta descargado")
+		}else{
+			cosas.remove(unaCosa)
+		}
+	}
+	method todosSonPesosPares(){
+	  return cosas.all({cosa => cosa.pesoEsPar()})
+	}
+	method hayAlgoConElPeso(peso){
+		return cosas.any({cosa => cosa.peso() == peso})
+	}
+	method pesoTotal(){
+		return tara + self.pesoCarga()
+	}
+	method pesoCarga(){
+		return cosas.sum({cosa => cosa.peso()})
 	}
 }
+/* REQUERIMIENTOS DEL CAMION 
+
+CARGAR: poder cargar una cosa --YA ESTA HECHO 
+DESCARGAR: poder descargar una cosa 
+NO SE PUEDE CARGAR ALGO YA CARGADO Y DESCARGAR ALGO YA DESCARGADO 
+////////////CARGA Y DESCARGA HECHO; CON EXCEPCIONES//////////////////////////////////
+
+PESO PAR: saber si el peso de cada uno de los objetos cargados es par ////////////HECHO 
+
+PODER IDENTIFICAR SI EL CAMION TIENE ALGO CARGADO CON EL PESO DADO ////////////////HECHO 
+
+PESO: saber el peso total del camion : tara (1000kgs) + pesoCarga ///// HECHO 
+
+EXCESO DE PESO: se excede si el peso total es superior al aceptable (2500kgs)
+
+NIVEL: encontrar una cosa cargada cuyo nivel de peligrosidad sea el dado
+
+COSAS PELIGROSAS: encontrar cosas cargadas que tengan cierto nivel de peligrosidad
+				encontrar cosas cargadas que sean mas peligrosas que la cosa 
+				indicada //////REUTILIZAR CODIGO///////
+
+CIRCULAR EN RUTA: saber si puede circular(no esta excedido de peso y ninguno de 
+					los objetos cargados supera el nivel maximo de peligrosidad
+
+CONTENEDOR PORTUARIO: puede tener cosas adentro, su peso es 100  + las cosas 
+						es tan peligroso como el objeto mas peligroso que 
+						contiene. Vacio; peligrosidad = 0
+
+SABER SI TIENE ALGO QUE PESA ENTRE DOS VALORES
+
+COSA MAS PESADA EN EL CAMION
+
+TOTAL DE BULTOS 
+
+ACCIDENTE 
+*/
