@@ -17,6 +17,9 @@ object knightRider {
 	method pesoEsPar(){
 		return peso % 2 == 0 
 	}
+	method accidente(){
+		//no pasa nada 
+	}
 }
 object arenaGranel{
 	var peso = 0
@@ -38,7 +41,9 @@ object arenaGranel{
 	method pesoEsPar(){
 		return peso % 2 == 0 
 	}
-
+	method accidente(){
+		peso = peso + 20 
+	}
 }
 object bumblebee{
 	const peso = 800
@@ -66,6 +71,12 @@ object bumblebee{
 	method pesoEsPar(){
 		return peso % 2 == 0 
 	}
+	method accidente(){
+		self.transformarse()
+	}
+	method esRobot(){
+		return estaTransformado
+	}
 }
 object paqueteLadrillos{
 	const nivelDePeligrosidad = 2 
@@ -76,6 +87,9 @@ object paqueteLadrillos{
 	}
 	method configurarCantidad(_cantidad){
 		cantidadPaquete = _cantidad 
+	}
+	method cantidadPaquete(){
+		return cantidadPaquete
 	}
 	method nivelDePeligrosidad(){
 		return nivelDePeligrosidad
@@ -91,6 +105,13 @@ object paqueteLadrillos{
 	}
 	method pesoEsPar(){
 		return self.peso() % 2 == 0 
+	}
+	method accidente(){
+		if(cantidadPaquete <= 12){
+			cantidadPaquete = 0
+		}else{
+			cantidadPaquete = cantidadPaquete - 12 
+		}
 	}
 }
 object bateriaAntiaerea{
@@ -126,6 +147,12 @@ object bateriaAntiaerea{
 	method pesoEsPar(){
 		return self.peso() % 2 == 0 
 	}
+	method estaCargada(){
+		return tieneMisiles
+	}
+	method accidente(){
+		tieneMisiles = false 
+	}
 }
 object residuosRadiactivos{
 	var peso = 0
@@ -135,6 +162,9 @@ object residuosRadiactivos{
 	method configurarPeso(valor){
 		peso = valor 
 	}
+	method peso(){
+		return peso 
+	}
 	method nivelDePeligrosidad(){
 		return nivelDePeligrosidad
 	}
@@ -143,6 +173,9 @@ object residuosRadiactivos{
 	}
 	method pesoEsPar(){
 		return peso % 2 == 0 
+	}
+	method accidente(){
+		peso = peso + 15 
 	}
 }
 object contenedorPortuario{
@@ -172,6 +205,9 @@ object contenedorPortuario{
 			cosas.add(unaCosa)
 		}
 	}
+	method accidente(){
+		cosas.forEach({cosa => cosa.accidente()})
+	}
 }
 object embalajeSeguridad{
 	//const property cosas = #{}
@@ -192,6 +228,9 @@ object embalajeSeguridad{
 	}
 	method desembalar(unaCosa){
 		contenido = null 
+	}
+	method accidente(){
+		contenido.accidente()
 	}
 }
 

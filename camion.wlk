@@ -1,6 +1,6 @@
 import cosas.*
 const cosas = #{knightRider, arenaGranel, bumblebee, paqueteLadrillos, bateriaAntiaerea, residuosRadiactivos, contenedorPortuario, embalajeSeguridad}
-
+const almacen =#{knightRider, residuosRadiactivos}
 object camion {
 	const tara = 1000 
 	const property cosas = #{}
@@ -59,7 +59,36 @@ object camion {
 	method pesos(){
 		return cosas.map({cosa => cosa.peso()})
 	}
-	
+	method bultosTotal(){
+		return cosas.sum({cosa => cosa.bultos()})
+	}
+	method choco(){
+		cosas.forEach({cosa => cosa.accidente()})
+	}
+	method transportar(destino, camino){
+		if(camino.puedeCircular()){
+			cosas.forEach({cosa => destino.add(cosa)})
+			cosas.clear()
+		}else{
+			self.error("No se puede circular por " + camino)
+		}
+	}
+}
+object ruta9{
+	method puedeCircular(){
+		return camion.puedeCircularEnRuta(20)
+	}
+}
+object caminosVecinales{	
+	var pesoMaxPermitido = 0 
+
+	method configurarPesoMax(valor){
+		pesoMaxPermitido = valor 
+	}
+	method puedeCircular(){
+		return camion.pesoTotal() <= pesoMaxPermitido
+	}
+
 }
 /* REQUERIMIENTOS DEL CAMION 
 
@@ -97,7 +126,13 @@ COSA MAS PESADA EN EL CAMION //////////////HECHO
 
 SABER TODOS LOS PESOS DEL CAMION ///////////////////HECHO 
 
-TOTAL DE BULTOS 
+TOTAL DE BULTOS  //////////////HECHO
 
-ACCIDENTE 
+ACCIDENTE ////////////////////HECHO
+
+TRANSPORTE: CAMION DEBE ENTENDER TRANSPORTAR(DESTINO, CAMINO)
+CAMINOS: 
+	RUTA 9: SOPORTA VIAJES SEGUN EL REQUERIMIENTO PUEDE CIRCULAR EN RUTA CON UN NIVEL DE PELIGROSIDAD 20
+	CAMINOS VECINALES: VIAJES DE VEHICULOS QUE NO SUPEREN UN MAXIMO CONFIGURABLE
+							SE DEBEN REALIZAR VALIDACIONES 
 */
