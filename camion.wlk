@@ -1,5 +1,5 @@
 import cosas.*
-const cosas = #{knightRider, arenaGranel, bumblebee, paqueteLadrillos, bateriaAntiaerea, residuosRadiactivos}
+const cosas = #{knightRider, arenaGranel, bumblebee, paqueteLadrillos, bateriaAntiaerea, residuosRadiactivos, contenedorPortuario, embalajeSeguridad}
 
 object camion {
 	const tara = 1000 
@@ -44,7 +44,22 @@ object camion {
 	method cosasMasPeligrosasQue(unaCosa){
 		return cosas.filter({cosa => cosa.nivelDePeligrosidad() > unaCosa.nivelDePeligrosidad()})
 	}
-
+	method puedeCircularEnRuta(nivelDePeligrosidad){
+		return not self.estaExcedidoDePeso() && not self.hayCosasConNivelMayorA(nivelDePeligrosidad)
+	}
+	method hayCosasConNivelMayorA(nivelDePeligrosidad){
+		return cosas.any({cosa => cosa.nivelDePeligrosidad() > nivelDePeligrosidad})
+	}
+	method hayAlgoQuePesaEntre(valor1, valor2){
+		return cosas.any({cosa => cosa.peso().between(valor1, valor2)})
+	}
+	method cosaMasPesada(){
+		return cosas.max({cosa => cosa.peso()})
+	}
+	method pesos(){
+		return cosas.map({cosa => cosa.peso()})
+	}
+	
 }
 /* REQUERIMIENTOS DEL CAMION 
 
@@ -69,15 +84,18 @@ COSAS PELIGROSAS: encontrar cosas cargadas que tengan cierto nivel de peligrosid
 				/////////////////HECHO////////////////////
 
 CIRCULAR EN RUTA: saber si puede circular(no esta excedido de peso y ninguno de 
-					los objetos cargados supera el nivel maximo de peligrosidad
+					los objetos cargados supera el nivel maximo de peligrosidad ///////// HECHO 
 
 CONTENEDOR PORTUARIO: puede tener cosas adentro, su peso es 100  + las cosas 
 						es tan peligroso como el objeto mas peligroso que 
-						contiene. Vacio; peligrosidad = 0
+						contiene. Vacio; peligrosidad = 0  /////////HECHO 
+EMBALAJE : UN SET QUE SOLO PUEDE CONTENER UN ELEMENTO? //////HECHO
 
-SABER SI TIENE ALGO QUE PESA ENTRE DOS VALORES
+SABER SI TIENE ALGO QUE PESA ENTRE DOS VALORES ///////////// HECHO 
 
-COSA MAS PESADA EN EL CAMION
+COSA MAS PESADA EN EL CAMION //////////////HECHO 
+
+SABER TODOS LOS PESOS DEL CAMION ///////////////////HECHO 
 
 TOTAL DE BULTOS 
 
