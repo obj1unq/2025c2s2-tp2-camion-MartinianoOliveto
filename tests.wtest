@@ -3,7 +3,6 @@ import camion.*
 test"Probando carga y descarga"{
     camion.cargar(arenaGranel)
     assert.equals(#{arenaGranel}, camion.cosas())
-    //CARGA FUNCIONA 
     camion.descargar(arenaGranel)
     assert.equals(#{}, camion.cosas())
 }
@@ -86,6 +85,9 @@ test "cosa mas pesada"{
     camion.cargar(bumblebee)
     camion.cargar(knightRider)
     assert.equals(bumblebee, camion.cosaMasPesada())
+}
+test"cosa mas pesada flujo excepcioal"{
+    assert.throwsException({camion.cosaMasPesada()})
 }
 test"sabiendo los pesos de c/u de las cargas"{
     camion.cargar(bumblebee)
